@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Khảo Sát</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        .form-inline {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .form-inline label {
+            width: 100%;
+            margin-right: 10px;
+        }
+        .form-inline input {
+            flex: 1;
+        }
+        .hidden {
+            display: none;
+        }
+        .notification {
+            display: none;
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .add-more {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .add-more:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Phiếu Khảo Sát</h1>
+
+    <div id="notification" class="notification"></div>
+
+    <form id="surveyForm">
+        <div class="form-section">
+            <h3>1. Thông tin cá nhân</h3>
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div class="form-group">
+                <label for="fullName">Họ và Tên:</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Tuổi:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label>Giới:</label>
+                <label><input type="radio" name="gender" value="Nam" required> Nam</label>
+                <label><input type="radio" name="gender" value="Nữ" required> Nữ</label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>2. Thông tin nhập viện</h3>
+            <div class="form-group">
+                <label for="admissionNumber">Số vào viện:</label>
+                <input type="text" id="admissionNumber" name="admissionNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="admissionDate">Ngày vào viện:</label>
+                <input type="date" id="admissionDate" name="admissionDate" required>
+            </div>
+            <div class="form-group">
+                <label for="icuAdmissionDate">Ngày vào khoa HSTC:</label>
+                <input type="date" id="icuAdmissionDate" name="icuAdmissionDate" required>
+            </div>
+            <div class="form-group">
+                <label for="icuDischargeDate">Ngày ra khoa HSTC:</label>
+                <input type="date" id="icuDischargeDate" name="icuDischargeDate" required>
+            </div>
+            <div class="form-group">
+                <label for="dischargeDate">Ngày ra viện:</label>
+                <input type="date" id="dischargeDate" name="dischargeDate" required>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>3. Bệnh lí nội khoa đi kèm</h3>
+            <div class="form-group">
+                <label>*</label>
+                <label><input type="radio" name="comorbidity" value="Không" required> Không</label>
+                <label><input type="radio" name="comorbidity" value="Có" required> Có</label>
+            </div>
+            <div id="comorbidityDetails" class="hidden">
+                <div class="form-group">
+                    <label>Bệnh tim mạch:</label>
+                    <label><input type="checkbox" name="cardiovascular" value="Bệnh tim thiếu máu"> Bệnh tim thiếu máu</label>
+                    <label><input type="checkbox" name="cardiovascular" value="Suy tim"> Suy tim</label>
+                    <label><input type="checkbox" name="cardiovascular" value="Rối loạn nhịp tim"> Rối loạn nhịp tim</label>
+                    <label><input type="checkbox" name="cardiovascular" value="Huyết áp cao"> Huyết áp cao</label>
+                    <label><input type="checkbox" name="cardiovascular" value="Bệnh mạch máu ngoại biên"> Bệnh mạch máu ngoại biên</label>
+                    <label>Mục khác: <input type="text" name="otherCardiovascular"></label>
+                </div>
+                <div class="form-group">
+                    <label>Bệnh đái tháo đường:</label>
+                    <label><input type="checkbox" name="diabetes" value="Bệnh đái tháo đường"> Bệnh đái tháo đường</label>
+                    <label><input type="checkbox" name="diabetes" value="Suy thượng thận mạn"> Suy thượng thận mạn</label>
+                </div>
+                <div class="form-group">
+                    <label>Hội chứng cushing do thuốc:</label>
+                    <label><input type="radio" name="cushing" value="Không" required> Không</label>
+                    <label><input type="radio" name="cushing" value="Có" required> Có</label>
+                </div>
+                <div class="form-group">
+                    <label>Bệnh hô hấp mạn:</label>
+                    <label><input type="checkbox" name="respiratory" value="Giãn phế quản"> Giãn phế quản</label>
+                    <label><input type="checkbox" name="respiratory" value="Lao phổi"> Lao phổi</label>
+                    <label><input type="checkbox" name="respiratory" value="COPD"> COPD</label>
+                    <label><input type="checkbox" name="respiratory" value="Hen"> Hen</label>
+                    <label>Mục khác: <input type="text" name="otherRespiratory"></label>
+                </div>
+                <div class="form-group">
+                    <label>Bệnh thận mạn:</label>
+                    <label><input type="radio" name="chronicKidney" value="Không" required> Không</label>
+                    <label><input type="radio" name="chronicKidney" value="Có" required> Có</label>
+                </div>
+                <div class="form-group">
+                    <label>Bệnh gan mạn:</label>
+                    <label><input type="checkbox" name="chronicLiver" value="Viêm gan siêu vi"> Viêm gan siêu vi</label>
+                    <label><input type="checkbox" name="chronicLiver" value="Xơ gan Child A"> Xơ gan Child A</label>
+                    <label><input type="checkbox" name="chronicLiver" value="Xơ gan Child B"> Xơ gan Child B</label>
+                    <label>Mục khác: <input type="text" name="otherChronicLiver"></label>
+                </div>
+                <div class="form-group">
+                    <label>Các bệnh nền khác:</label>
+                    <input type="text" name="otherComorbidity">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>4. Tình trạng nhiễm khuẩn</h3>
+            <div class="form-group">
+                <label>Sốc nhiễm khuẩn:</label>
+                <label><input type="radio" name="septicShock" value="Không" required> Không</label>
+                <label><input type="radio" name="septicShock" value="Có" required> Có</label>
+            </div>
+            <div class="form-group">
+                <label>Nhiễm khuẩn huyết:</label>
+                <label><input type="radio" name="sepsis" value="Không" required> Không</label>
+                <label><input type="radio" name="sepsis" value="Có" required> Có</label>
+            </div>
+            <div class="form-group">
+                <label>Đường vào nhiễm khuẩn:</label>
+                <label><input type="radio" name="infectionEntry" value="Hô hấp" required> Hô hấp</label>
+                <label><input type="radio" name="infectionEntry" value="Tiêu hóa" required> Tiêu hóa</label>
+                <label><input type="radio" name="infectionEntry" value="Tiết niệu" required> Tiết niệu</label>
+                <label><input type="radio" name="infectionEntry" value="Da, mô mềm" required> Da, mô mềm</label>
+                <label><input type="radio" name="infectionEntry" value="Không rõ" required> Không rõ</label>
+                <label>Mục khác: <input type="text" name="otherInfectionEntry"></label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>5. Thông tin thở máy</h3>
+            <div class="form-group">
+                <label>Thở máy:</label>
+                <label><input type="radio" name="ventilation" value="Không" required> Không</label>
+                <label><input type="radio" name="ventilation" value="Có" required> Có</label>
+            </div>
+            <div class="form-group">
+                <label for="ventilationStartDate">Ngày bắt đầu thở máy:</label>
+                <input type="date" id="ventilationStartDate" name="ventilationStartDate">
+            </div>
+            <div class="form-group">
+                <label for="ventilationEndDate">Ngày kết thúc thở máy:</label>
+                <input type="date" id="ventilationEndDate" name="ventilationEndDate">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>6. Xét nghiệm vi sinh</h3>
+            <div class="form-group">
+                <label>Xét nghiệm vi sinh:</label>
+                <label><input type="radio" name="microbiologicalTest" value="Không" required> Không</label>
+                <label><input type="radio" name="microbiologicalTest" value="Có" required> Có</label>
+            </div>
+            <div id="microbiologicalDetails" class="hidden">
+                <div class="form-group">
+                    <label>Bệnh phẩm:</label>
+                    <label><input type="checkbox" name="sample" value="Đàm"> Đàm</label>
+                    <label><input type="checkbox" name="sample" value="Máu"> Máu</label>
+                    <label><input type="checkbox" name="sample" value="Mủ"> Mủ</label>
+                    <label><input type="checkbox" name="sample" value="Nước tiểu"> Nước tiểu</label>
+                    <label><input type="checkbox" name="sample" value="Dịch não tủy"> Dịch não tủy</label>
+                    <label><input type="checkbox" name="sample" value="Dịch màng phổi"> Dịch màng phổi</label>
+                    <label>Mục khác: <input type="text" name="otherSample"></label>
+                </div>
+                <div class="form-group">
+                    <label for="sampleDate">Ngày lấy mẫu:</label>
+                    <input type="date" id="sampleDate" name="sampleDate">
+                </div>
+                <div class="form-group">
+                    <label for="resultDate">Ngày có kết quả:</label>
+                    <input type="date" id="resultDate" name="resultDate">
+                </div>
+                <div class="form-group">
+                    <label>Kết quả:</label>
+                    <label><input type="radio" name="result" value="Không mọc vi khuẩn" required> Không mọc vi khuẩn</label>
+                    <label><input type="radio" name="result" value="Có vi khuẩn mọc" required> Có vi khuẩn mọc</label>
+                </div>
+                <div class="form-group">
+                    <label>Kết quả phân lập:</label>
+                    <label><input type="radio" name="isolate" value="Gram âm" required> Gram âm</label>
+                    <label><input type="radio" name="isolate" value="Gram dương" required> Gram dương</label>
+                </div>
+                <div class="form-group">
+                    <label>Định danh:</label>
+                    <label><input type="checkbox" name="identification" value="Pseudomonas aeruginosa"> Pseudomonas aeruginosa</label>
+                    <label><input type="checkbox" name="identification" value="Acinetobacter baumannii"> Acinetobacter baumannii</label>
+                    <label><input type="checkbox" name="identification" value="Klebsiella pneumoniae"> Klebsiella pneumoniae</label>
+                    <label><input type="checkbox" name="identification" value="Legionella pneumophila"> Legionella pneumophila</label>
+                    <label>Mục khác: <input type="text" name="otherIdentification"></label>
+                </div>
+                <div class="form-group">
+                    <label>Kháng sinh đồ đối với Colistin:</label>
+                    <label><input type="radio" name="colistinResistance" value="R" required> R</label>
+                    <label><input type="radio" name="colistinResistance" value="I" required> I</label>
+                    <label><input type="radio" name="colistinResistance" value="S" required> S</label>
+                </div>
+                <div class="form-group">
+                    <label>MIC đối với colistin:</label>
+                    <label><input type="radio" name="mic" value="<=0.5" required> <=0.5</label>
+                    <label><input type="radio" name="mic" value="<=1" required> <=1</label>
+                    <label><input type="radio" name="mic" value="<=2" required> <=2</label>
+                    <label><input type="radio" name="mic" value=">=4" required> >=4</label>
+                    <label><input type="radio" name="mic" value=">=8" required> >=8</label>
+                    <label><input type="radio" name="mic" value=">=16" required> >=16</label>
+                    <label><input type="radio" name="mic" value=">=32" required> >=32</label>
+                    <label><input type="radio" name="mic" value=">=64" required> >=64</label>
+                    <label><input type="radio" name="mic" value=">=128" required> >=128</label>
+                    <label><input type="radio" name="mic" value=">=320" required> >=320</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>7. Sử dụng Colistin</h3>
+            <div class="form-group">
+                <label for="tradeName">Tên thương mại:</label>
+                <input type="text" id="tradeName" name="tradeName" required>
+            </div>
+            <div class="form-group">
+                <label for="colistinStartDate">Ngày bắt đầu sử dụng Colistin:</label>
+                <input type="date" id="colistinStartDate" name="colistinStartDate" required>
+            </div>
+            <div class="form-group">
+                <label for="colistinEndDate">Ngày kết thúc sử dụng Colistin:</label>
+                <input type="date" id="colistinEndDate" name="colistinEndDate" required>
+            </div>
+            <div class="form-group">
+                <label for="initialDose">Liều bắt đầu:</label>
+                <input type="number" id="initialDose" name="initialDose" required>
+            </div>
+            <div class="form-group">
+                <label for="maintenanceDose">Liều duy trì:</label>
+                <input type="number" id="maintenanceDose" name="maintenanceDose" required>
+            </div>
+            <div class="form-group">
+                <label>Kháng sinh dùng kèm 1:</label>
+                <input type="text" id="antibiotic1" name="antibiotic1">
+                <label>Số ngày:</label>
+                <input type="number" id="days1" name="days1">
+            </div>
+            <div class="form-group">
+                <label>Kháng sinh dùng kèm 2:</label>
+                <input type="text" id="antibiotic2" name="antibiotic2">
+                <label>Số ngày:</label>
+                <input type="number" id="days2" name="days2">
+            </div>
+            <div class="form-group">
+                <label>Vận mạch:</label>
+                <label><input type="radio" name="vasopressor" value="Không" required> Không</label>
+                <label><input type="radio" name="vasopressor" value="Có" required> Có</label>
+            </div>
+            <div class="form-group">
+                <label>Steroid:</label>
+                <label><input type="radio" name="steroid" value="Không" required> Không</label>
+                <label><input type="radio" name="steroid" value="Có" required> Có</label>
+                <div class="form-group hidden" id="albuminLevelSection">
+                    <label for="albuminLevel">Nồng độ albumin máu:</label>
+                    <input type="number" id="albuminLevel" name="albuminLevel">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>8. Theo dõi độc tính thận</h3>
+            <div class="form-group">
+                <label for="onsetDate">Ngày khởi phát:</label>
+                <input type="date" id="onsetDate" name="onsetDate" required>
+            </div>
+            <div class="form-group">
+                <label for="highestScrDate">Ngày SCr cao nhất:</label>
+                <input type="date" id="highestScrDate" name="highestScrDate" required>
+            </div>
+            <div class="form-group">
+                <label>Khả năng khôi phục:</label>
+                <label><input type="radio" name="recoveryAbility" value="Không" required> Không</label>
+                <label><input type="radio" name="recoveryAbility" value="Có" required> Có</label>
+            </div>
+            <div class="form-group hidden" id="recoveryDateSection">
+                <label for="recoveryStartDate">Ngày bắt đầu hồi phục:</label>
+                <input type="date" id="recoveryStartDate" name="recoveryStartDate">
+            </div>
+            <table id="kidneyToxicityTable">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Creatinin máu</th>
+                        <th>Bilirubin máu</th>
+                        <th>Albumin</th>
+                        <th>Urea</th>
+                        <th>Cân nặng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="date" name="toxicityDate[]"></td>
+                        <td><input type="number" name="creatinine[]"></td>
+                        <td><input type="number" name="bilirubin[]"></td>
+                        <td><input type="number" name="albumin[]"></td>
+                        <td><input type="number" name="urea[]"></td>
+                        <td><input type="number" name="weight[]"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="add-more" onclick="addRow()">Thêm ngày</button>
+        </div>
+
+        <div class="form-section">
+            <h3>9. Kết quả</h3>
+            <div class="form-group">
+                <label>Kết quả:</label>
+                <label><input type="radio" name="outcome" value="Sống" required> Sống</label>
+                <label><input type="radio" name="outcome" value="Tử vong trong bệnh viện" required> Tử vong trong bệnh viện</label>
+                <label><input type="radio" name="outcome" value="Bệnh nặng xin về" required> Bệnh nặng xin về</label>
+            </div>
+        </div>
+
+        <button type="submit">Gửi</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Xử lý ẩn/hiện các phần tùy chọn
+            document.querySelectorAll('input[name="comorbidity"]').forEach(function (elem) {
+                elem.addEventListener('change', function () {
+                    document.getElementById('comorbidityDetails').classList.toggle('hidden', this.value !== 'Có');
+                });
+            });
+        
+            document.querySelectorAll('input[name="microbiologicalTest"]').forEach(function (elem) {
+                elem.addEventListener('change', function () {
+                    document.getElementById('microbiologicalDetails').classList.toggle('hidden', this.value !== 'Có');
+                });
+            });
+        
+            document.querySelectorAll('input[name="steroid"]').forEach(function (elem) {
+                elem.addEventListener('change', function () {
+                    document.getElementById('albuminLevelSection').classList.toggle('hidden', this.value !== 'Có');
+                });
+            });
+        
+            document.querySelectorAll('input[name="recoveryAbility"]').forEach(function (elem) {
+                elem.addEventListener('change', function () {
+                    document.getElementById('recoveryDateSection').classList.toggle('hidden', this.value !== 'Có');
+                });
+            });
+        
+            // Xử lý sự kiện submit form
+            document.getElementById('surveyForm').addEventListener('submit', async function (e) {
+                e.preventDefault(); // Ngăn chặn hành vi mặc định của form
+        
+                // Lấy thời gian hiện tại
+                const currentTime = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+        
+                // Tạo FormData để lưu trữ dữ liệu
+                const formData = new FormData();
+                formData.append('time', currentTime);
+        
+                // Lấy tất cả các phần tử trong form và thêm vào FormData
+                const elements = this.elements;
+                for (let i = 0; i < elements.length; i++) {
+                    if (elements[i].name) {
+                        if (elements[i].type === 'checkbox' && !elements[i].checked) {
+                            continue; // Bỏ qua các checkbox không được chọn
+                        }
+                        formData.append(elements[i].name, elements[i].value);
+                    }
+                }
+        
+                // URL của Google Apps Script để gửi dữ liệu
+                const googleSheetsURL = 'https://script.google.com/macros/s/AKfycbxoGp67t9vLM8Ux8icvBWp7yZ10shkF09R_WzEAL19z0yHUvwBsRI63tiDdYnhgbuu3/exec'; // Thay thế bằng URL của bạn
+        
+                try {
+                    // Gửi dữ liệu đến Google Sheets
+                    const response = await fetch(googleSheetsURL, {
+                        method: 'POST',
+                        body: formData
+                    });
+        
+                    if (response.ok) {
+                        // Hiển thị thông báo thành công
+                        document.getElementById('notification').textContent = 'Dữ liệu của bạn đã được gửi thành công!';
+                        document.getElementById('notification').style.display = 'block';
+        
+                        // Đặt thời gian chờ trước khi làm mới trang
+                        setTimeout(() => {
+                            location.reload(); // Làm mới trang sau 3 giây
+                        }, 3000);
+                    } else {
+                        throw new Error('Có lỗi xảy ra khi gửi dữ liệu.');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi gửi dữ liệu:', error);
+                    // Hiển thị thông báo lỗi nếu có
+                    document.getElementById('notification').textContent = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                    document.getElementById('notification').style.display = 'block';
+                }
+            });
+        
+            // Hàm thêm dòng vào bảng theo dõi độc tính thận
+            function addRow() {
+                const table = document.getElementById('kidneyToxicityTable').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                const cols = ['toxicityDate[]', 'creatinine[]', 'bilirubin[]', 'albumin[]', 'urea[]', 'weight[]'];
+                cols.forEach(col => {
+                    const cell = newRow.insertCell();
+                    const input = document.createElement('input');
+                    input.type = col === 'toxicityDate[]' ? 'date' : 'number';
+                    input.name = col;
+                    cell.appendChild(input);
+                });
+            }
+        });
+        
+    </script>
+
+</body>
+</html>
