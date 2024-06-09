@@ -383,6 +383,19 @@
     </form>
 
     <script>
+        // Hàm addRow được định nghĩa ở đây, ngoài DOMContentLoaded
+        function addRow() {
+            const table = document.getElementById('kidneyToxicityTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            const cols = ['toxicityDate[]', 'creatinine[]', 'bilirubin[]', 'albumin[]', 'urea[]', 'weight[]'];
+            cols.forEach(col => {
+                const cell = newRow.insertCell();
+                const input = document.createElement('input');
+                input.type = col === 'toxicityDate[]' ? 'date' : 'number';
+                input.name = col;
+                cell.appendChild(input);
+            });
+        }
         document.addEventListener('DOMContentLoaded', function () {
             // Xử lý ẩn/hiện các phần tùy chọn
             document.querySelectorAll('input[name="comorbidity"]').forEach(function (elem) {
@@ -460,20 +473,7 @@
                     document.getElementById('notification').style.display = 'block';
                 }
             });
-        
-            // Hàm thêm dòng vào bảng theo dõi độc tính thận
-            function addRow() {
-                const table = document.getElementById('kidneyToxicityTable').getElementsByTagName('tbody')[0];
-                const newRow = table.insertRow();
-                const cols = ['toxicityDate[]', 'creatinine[]', 'bilirubin[]', 'albumin[]', 'urea[]', 'weight[]'];
-                cols.forEach(col => {
-                    const cell = newRow.insertCell();
-                    const input = document.createElement('input');
-                    input.type = col === 'toxicityDate[]' ? 'date' : 'number';
-                    input.name = col;
-                    cell.appendChild(input);
-                });
-            }
+          
         });
         
     </script>
